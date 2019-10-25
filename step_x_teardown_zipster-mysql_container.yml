@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+figlet -w 160 -f small "Teardown MySQL Container"
+docker-compose -f docker-compose-mysql.yml down
+docker volume rm -f zipster_zipster-mysql-data
