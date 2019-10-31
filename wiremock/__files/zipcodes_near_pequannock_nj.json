@@ -1,0 +1,43 @@
+{
+  "radius": "2.0",
+  "zipcode": "07440",
+  "results":
+  [
+    {
+      "zipcode": "07444",
+      "zipcode_type": "STANDARD",
+      "city": "POMPTON PLAINS",
+      "state": "NJ",
+      "location_type": "PRIMARY",
+      "latitude": "40.96",
+      "longitude": "-74.30",
+      "location": "NA-US-NJ-POMPTON PLAINS",
+      "decomissioned": "0",
+      "distance":  "1.477185"
+    },
+    {
+      "zipcode": "07035",
+      "zipcode_type": "STANDARD",
+      "city": "LINCOLN PARK",
+      "state": "NJ",
+      "location_type": "PRIMARY",
+      "latitude": "40.92",
+      "longitude": "-74.30",
+      "location": "NA-US-NJ-LINCOLN PARK",
+      "decomissioned": "0",
+      "distance":  "1.477241"
+    },
+    {
+      "zipcode": "07477",
+      "zipcode_type": "UNIQUE",
+      "city": "WAYNE",
+      "state": "NJ",
+      "location_type": "PRIMARY",
+      "latitude": "40.92",
+      "longitude": "-74.27",
+      "location": "NA-US-NJ-WAYNE",
+      "decomissioned": "1",
+      "distance":  "1.732069"
+    }
+  ]
+}

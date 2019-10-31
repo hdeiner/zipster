@@ -1,6 +1,6 @@
 CREATE TABLE ZIPCODES
 (
-    ZIPCODE       INT,
+    ZIPCODE       VARCHAR(5),
     ZIPCODE_TYPE  VARCHAR(16),
     CITY          VARCHAR(32),
     STATE         VARCHAR(2),

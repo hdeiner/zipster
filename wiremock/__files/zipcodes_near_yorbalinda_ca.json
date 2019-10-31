@@ -1,0 +1,164 @@
+{
+  "radius": "7.0",
+  "zipcode": "92887",
+  "results":
+  [
+    {
+      "zipcode": "92809",
+      "zipcode_type": "STANDARD",
+      "city": "ANAHEIM",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.86",
+      "longitude": "-117.74",
+      "location": "NA-US-CA-ANAHEIM",
+      "decomissioned": "0",
+      "distance":  "1.796008"
+    },
+    {
+      "zipcode": "92808",
+      "zipcode_type": "STANDARD",
+      "city": "ANAHEIM",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.84",
+      "longitude": "-117.73",
+      "location": "NA-US-CA-ANAHEIM",
+      "decomissioned": "0",
+      "distance":  "2.822741"
+    },
+    {
+      "zipcode": "92886",
+      "zipcode_type": "STANDARD",
+      "city": "YORBA LINDA",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.89",
+      "longitude": "-117.78",
+      "location": "NA-US-CA-YORBA LINDA",
+      "decomissioned": "0",
+      "distance":  "3.510008"
+    },
+    {
+      "zipcode": "91709",
+      "zipcode_type": "STANDARD",
+      "city": "CHINO HILLS",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.94",
+      "longitude": "-117.72",
+      "location": "NA-US-CA-CHINO HILLS",
+      "decomissioned": "0",
+      "distance":  "4.145422"
+    },
+    {
+      "zipcode": "92807",
+      "zipcode_type": "STANDARD",
+      "city": "ANAHEIM",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.85",
+      "longitude": "-117.79",
+      "location": "NA-US-CA-ANAHEIM",
+      "decomissioned": "0",
+      "distance":  "4.519457"
+    },
+    {
+      "zipcode": "92817",
+      "zipcode_type": "PO BOX",
+      "city": "ANAHEIM",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.85",
+      "longitude": "-117.79",
+      "location": "NA-US-CA-ANAHEIM",
+      "decomissioned": "0",
+      "distance":  "4.519457"
+    },
+    {
+      "zipcode": "92823",
+      "zipcode_type": "STANDARD",
+      "city": "BREA",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.92",
+      "longitude": "-117.80",
+      "location": "NA-US-CA-BREA",
+      "decomissioned": "0",
+      "distance":  "5.355973"
+    },
+    {
+      "zipcode": "92885",
+      "zipcode_type": "PO BOX",
+      "city": "YORBA LINDA",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.89",
+      "longitude": "-117.82",
+      "location": "NA-US-CA-YORBA LINDA",
+      "decomissioned": "0",
+      "distance":  "5.777190"
+    },
+    {
+      "zipcode": "92862",
+      "zipcode_type": "STANDARD",
+      "city": "ORANGE",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.79",
+      "longitude": "-117.71",
+      "location": "NA-US-CA-ORANGE",
+      "decomissioned": "0",
+      "distance":  "6.244857"
+    },
+    {
+      "zipcode": "92867",
+      "zipcode_type": "STANDARD",
+      "city": "ORANGE",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.81",
+      "longitude": "-117.79",
+      "location": "NA-US-CA-ORANGE",
+      "decomissioned": "0",
+      "distance":  "6.287095"
+    },
+    {
+      "zipcode": "92880",
+      "zipcode_type": "STANDARD",
+      "city": "CORONA",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.90",
+      "longitude": "-117.61",
+      "location": "NA-US-CA-CORONA",
+      "decomissioned": "0",
+      "distance":  "6.458642"
+    },
+    {
+      "zipcode": "92811",
+      "zipcode_type": "PO BOX",
+      "city": "ATWOOD",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.86",
+      "longitude": "-117.83",
+      "location": "NA-US-CA-ATWOOD",
+      "decomissioned": "0",
+      "distance":  "6.460086"
+    },
+    {
+      "zipcode": "92859",
+      "zipcode_type": "PO BOX",
+      "city": "ORANGE",
+      "state": "CA",
+      "location_type": "PRIMARY",
+      "latitude": "33.80",
+      "longitude": "-117.78",
+      "location": "NA-US-CA-ORANGE",
+      "decomissioned": "0",
+      "distance":  "6.512262"
+    }
+  ]
+}
+

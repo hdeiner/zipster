@@ -1,0 +1,16 @@
+{
+  "request" : {
+    "url" : "/zipster",
+    "method" : "POST",
+    "bodyPatterns" : [{
+      "equalToJson" : "{\"radius\": \"6.0\",\"zipcode\":\"06612\"}"
+    }]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "zipcodes_near_easton_ct.json",
+    "headers" : {
+      "Content-Type" : "application/json"
+    }
+  }
+}

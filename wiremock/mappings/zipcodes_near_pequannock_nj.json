@@ -1,0 +1,16 @@
+{
+  "request" : {
+    "url" : "/zipster",
+    "method" : "POST",
+    "bodyPatterns" : [{
+      "equalToJson" : "{\"radius\": \"2.0\",\"zipcode\":\"07440\"}"
+    }]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "zipcodes_near_pequannock_nj.json",
+    "headers" : {
+      "Content-Type" : "application/json"
+    }
+  }
+}
