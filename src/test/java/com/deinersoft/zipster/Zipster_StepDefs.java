@@ -1,7 +1,7 @@
-package test.com.deinersoft.zipster;
+package test.java.com.deinersoft.zipster;
 
 import cucumber.api.DataTable;
-import com.deinersoft.zipster.core.PostOffice;
+import main.java.com.deinersoft.zipster.core.PostOffice;
 import org.json.JSONObject;
 import test.java.com.deinersoft.zipster.client.ZipsterClient;
 import cucumber.api.java.en.Given;

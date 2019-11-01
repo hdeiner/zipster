@@ -1,9 +1,6 @@
-package test.com.deinersoft.zipster.core;
+package test.java.com.deinersoft.zipster.core;
 
-import com.deinersoft.zipster.core.Zipster;
-import com.deinersoft.zipster.core.ZipsterException;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.core.Is.is;

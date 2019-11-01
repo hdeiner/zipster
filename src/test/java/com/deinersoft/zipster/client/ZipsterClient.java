@@ -1,12 +1,8 @@
 package test.java.com.deinersoft.zipster.client;
 
-import com.deinersoft.zipster.core.PostOffice;
-import com.deinersoft.zipster.server.ZipsterServer;
+import main.java.com.deinersoft.zipster.server.ZipsterServer;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.common.SingleRootFileSource;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.github.tomakehurst.wiremock.standalone.JsonFileMappingsLoader;
 
 import us.monoid.json.JSONArray;
 import us.monoid.json.JSONObject;
@@ -17,7 +13,6 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 
 import static us.monoid.web.Resty.content;
 

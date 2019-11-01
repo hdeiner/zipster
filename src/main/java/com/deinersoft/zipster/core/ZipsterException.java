@@ -1,4 +1,4 @@
-package com.deinersoft.zipster.core;
+package main.java.com.deinersoft.zipster.core;
 
 public class ZipsterException extends Exception {
     public ZipsterException() { super(); }

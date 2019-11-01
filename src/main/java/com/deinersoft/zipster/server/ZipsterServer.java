@@ -1,17 +1,7 @@
-package com.deinersoft.zipster.server;
+package main.java.com.deinersoft.zipster.server;
 
-import com.deinersoft.zipster.core.Zipster;
-import com.googlecode.totallylazy.Zip;
+import main.java.com.deinersoft.zipster.core.Zipster;
 import org.json.JSONObject;
-
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Properties;
-import java.util.TimeZone;
 
 import static spark.Spark.*;
 

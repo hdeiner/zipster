@@ -1,4 +1,4 @@
-package com.deinersoft.zipster.core;
+package main.java.com.deinersoft.zipster.core;
 
 import org.json.JSONObject;
 
