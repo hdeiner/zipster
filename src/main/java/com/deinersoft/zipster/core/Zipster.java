@@ -32,7 +32,8 @@ public class Zipster {
 //                String url = properties.getProperty("url");
 //                String user = properties.getProperty("user");
 //                String password = properties.getProperty("password");
-            String url = "jdbc:mysql://localhost:3306/zipster?useSSL=false";
+//            String url = "jdbc:mysql://0.0.0.0:3306/zipster?useSSL=false";
+            String url = "jdbc:mysql://mysql:3306/zipster?useSSL=false";
             String user = "root";
             String password = "password";
 

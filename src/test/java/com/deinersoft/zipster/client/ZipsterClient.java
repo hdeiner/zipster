@@ -1,9 +1,5 @@
 package test.java.com.deinersoft.zipster.client;
 
-import main.java.com.deinersoft.zipster.server.ZipsterServer;
-
-import com.github.tomakehurst.wiremock.WireMockServer;
-
 import us.monoid.json.JSONArray;
 import us.monoid.json.JSONObject;
 import us.monoid.web.JSONResource;
@@ -17,12 +13,7 @@ import java.nio.file.Paths;
 import static us.monoid.web.Resty.content;
 
 public class ZipsterClient {
-    private String numberInWords;
     private String whichServer;
-    private static WireMockServer wireMockServer;
-    private static Process serverRuntime;
-    private static ZipsterServer zipsterServer;
-    private static Thread serverThread;
 
     public ZipsterClient(String whichServer) throws Exception {
         this.whichServer = whichServer;
@@ -38,10 +29,6 @@ public class ZipsterClient {
         if (whichServer.equals("AWS")) {
         }
 
-    }
-
-    public Process getServerRunTime() {
-        return serverRuntime;
     }
 
     public void stopServer() throws Exception {

@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-figlet -w 160 -f standard "Create zipster-mysql Container"
+figlet -w 160 -f standard "Dockerize zipster-mysql"
 
 figlet -w 160 -f small "Create MySQL Data Container"
 #docker rmi -f howarddeiner/zipster-mysql-data
 #docker build src/iac/docker-mysql-data/ -t howarddeiner/zipster-mysql-data
 
 figlet -w 160 -f small "Bring Up MySQL Continer"
+docker volume rm zipster_zipster-mysql-data
 docker-compose -f docker-compose-mysql.yml up -d
 
 figlet -w 160 -f small "Wait for MySQL to Start"
@@ -26,6 +27,9 @@ figlet -w 160 -f small "Create Our Database"
 ./flyway-4.2.0/flyway info
 ./flyway-4.2.0/flyway migrate
 ./flyway-4.2.0/flyway info
+
+figlet -w 160 -f small "Bring Down MySQL Continer"
+docker-compose -f docker-compose-mysql.yml down
 
 #figlet -w 160 -f standard "Create zipster-mysql Image"
 
