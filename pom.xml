@@ -14,9 +14,11 @@
             <url>http://repo.bodar.com</url>
         </repository>
     </repositories>
+
     <prerequisites>
         <maven>3.0</maven>
     </prerequisites>
+
     <build>
         <sourceDirectory>src</sourceDirectory>
         <resources>
@@ -98,7 +100,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
+                <version>2.22.0</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                     <includes>
@@ -111,17 +113,6 @@
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
                 <version>2.4.0</version>
-<!--
-                <dependencies>
-                    <dependency>
-                        <groupId>com.googlecode.totallylazy</groupId>
-                        <artifactId>totallylazy</artifactId>
-                        <version>1.84</version>
-                        <scope>system</scope>
-                        <systemPath>${project.basedir}/target/dependency-jars/totallylazy-1.84.jar</systemPath>
-                    </dependency>
-                </dependencies>
--->
                 <executions>
                     <execution>
                         <id>execution_core</id>
@@ -131,8 +122,8 @@
                         </goals>
                         <configuration>
                             <projectName>CheckWordster</projectName>
-                            <outputDirectory>${project.basedir}/target/cucumber-reports-core-and-containers/cucumber-pretty-report</outputDirectory>
-                            <cucumberOutput>${project.basedir}/target/cucumber-reports-core-and-containers/cucumber-json-report.json</cucumberOutput>
+                            <outputDirectory>${project.basedir}/target/cucumber-reports-local/cucumber-pretty-report</outputDirectory>
+                            <cucumberOutput>${project.basedir}/target/cucumber-reports-local/cucumber-json-report.json</cucumberOutput>
                             <skippedFails>false</skippedFails>
                         </configuration>
                     </execution>
@@ -176,7 +167,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <version>2.22.0</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                     <includes>
@@ -329,6 +320,11 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
             <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.18</version>
         </dependency>
     </dependencies>
 

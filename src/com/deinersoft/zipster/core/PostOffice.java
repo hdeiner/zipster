@@ -1,4 +1,4 @@
-package main.java.com.deinersoft.zipster.core;
+package com.deinersoft.zipster.core;
 
 public class PostOffice {
     public String zipcode;

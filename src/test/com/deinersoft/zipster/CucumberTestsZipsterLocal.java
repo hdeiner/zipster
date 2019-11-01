@@ -1,4 +1,4 @@
-package test.java.com.deinersoft.zipster;
+package test.com.deinersoft.zipster;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
@@ -9,10 +9,10 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
 //      dryRun   = false,
 //      strict = true,
-        tags     = "@WireMock",
+        tags     = "@WireMock, @Local",
         monochrome = false,
-        features = { "src/test/java/com/deinersoft/zipster/resources/features" },
-        glue     = { "test.java.com.deinersoft.zipster" },
+        features = { "src/test/com/deinersoft/zipster/resources/features" },
+        glue     = { "test.com.deinersoft.zipster" },
         plugin   = { "pretty", "html:target/cucumber-reports-local/cucumber-html-report", "json:target/cucumber-reports-local/cucumber-json-report.json" }
 )
 

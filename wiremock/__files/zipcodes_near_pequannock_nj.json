@@ -10,10 +10,10 @@
       "state": "NJ",
       "location_type": "PRIMARY",
       "latitude": "40.96",
-      "longitude": "-74.30",
+      "longitude": "-74.3",
       "location": "NA-US-NJ-POMPTON PLAINS",
       "decomissioned": "0",
-      "distance":  "1.477185"
+      "distance":  "1.477185115083272"
     },
     {
       "zipcode": "07035",
@@ -22,10 +22,10 @@
       "state": "NJ",
       "location_type": "PRIMARY",
       "latitude": "40.92",
-      "longitude": "-74.30",
+      "longitude": "-74.3",
       "location": "NA-US-NJ-LINCOLN PARK",
       "decomissioned": "0",
-      "distance":  "1.477241"
+      "distance":  "1.477240978042409"
     },
     {
       "zipcode": "07477",
@@ -37,7 +37,7 @@
       "longitude": "-74.27",
       "location": "NA-US-NJ-WAYNE",
       "decomissioned": "1",
-      "distance":  "1.732069"
+      "distance":  "1.732068600965657"
     }
   ]
 }

@@ -13,7 +13,7 @@
       "longitude": "-73.37",
       "location": "NA-US-CT-WESTON",
       "decomissioned": "0",
-      "distance":  "3.410546"
+      "distance":  "3.4105464758201736"
     },
     {
       "zipcode": "06875",
@@ -21,11 +21,11 @@
       "city": "REDDING CENTER",
       "state": "CT",
       "location_type": "PRIMARY",
-      "latitude": "41.30",
+      "latitude": "41.3",
       "longitude": "-73.38",
       "location": "NA-US-CT-REDDING CENTER",
       "decomissioned": "0",
-      "distance":  "5.513521"
+      "distance":  "5.513520502095821"
     },
     {
       "zipcode": "06876",
@@ -33,11 +33,11 @@
       "city": "REDDING RIDGE",
       "state": "CT",
       "location_type": "PRIMARY",
-      "latitude": "41.30",
+      "latitude": "41.3",
       "longitude": "-73.38",
       "location": "NA-US-CT-REDDING RIDGE",
       "decomissioned": "0",
-      "distance":  "5.513521"
+      "distance":  "5.513520502095821"
     },
     {
       "zipcode": "06896",
@@ -45,11 +45,11 @@
       "city": "REDDING",
       "state": "CT",
       "location_type": "PRIMARY",
-      "latitude": "41.30",
+      "latitude": "41.3",
       "longitude": "-73.38",
       "location": "NA-US-CT-REDDING",
       "decomissioned": "0",
-      "distance":  "5.513521"
+      "distance":  "5.513520502095821"
     },
     {
       "zipcode": "06611",
@@ -58,10 +58,10 @@
       "state": "CT",
       "location_type": "PRIMARY",
       "latitude": "41.25",
-      "longitude": "-73.20",
+      "longitude": "-73.2",
       "location": "NA-US-CT-TRUMBULL",
       "decomissioned": "0",
-      "distance":  "5.756242"
+      "distance":  "5.756241520902255"
     }
   ]
 }

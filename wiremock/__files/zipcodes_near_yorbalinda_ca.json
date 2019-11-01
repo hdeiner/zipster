@@ -13,7 +13,7 @@
       "longitude": "-117.74",
       "location": "NA-US-CA-ANAHEIM",
       "decomissioned": "0",
-      "distance":  "1.796008"
+      "distance":  "1.7960075587809228"
     },
     {
       "zipcode": "92808",
@@ -25,7 +25,7 @@
       "longitude": "-117.73",
       "location": "NA-US-CA-ANAHEIM",
       "decomissioned": "0",
-      "distance":  "2.822741"
+      "distance":  "2.8227409528346716"
     },
     {
       "zipcode": "92886",
@@ -37,7 +37,7 @@
       "longitude": "-117.78",
       "location": "NA-US-CA-YORBA LINDA",
       "decomissioned": "0",
-      "distance":  "3.510008"
+      "distance":  "3.510008209335529"
     },
     {
       "zipcode": "91709",
@@ -49,7 +49,7 @@
       "longitude": "-117.72",
       "location": "NA-US-CA-CHINO HILLS",
       "decomissioned": "0",
-      "distance":  "4.145422"
+      "distance":  "4.145421652529151"
     },
     {
       "zipcode": "92807",
@@ -61,7 +61,7 @@
       "longitude": "-117.79",
       "location": "NA-US-CA-ANAHEIM",
       "decomissioned": "0",
-      "distance":  "4.519457"
+      "distance":  "4.519457486241159"
     },
     {
       "zipcode": "92817",
@@ -73,7 +73,7 @@
       "longitude": "-117.79",
       "location": "NA-US-CA-ANAHEIM",
       "decomissioned": "0",
-      "distance":  "4.519457"
+      "distance":  "4.519457486241159"
     },
     {
       "zipcode": "92823",
@@ -82,10 +82,10 @@
       "state": "CA",
       "location_type": "PRIMARY",
       "latitude": "33.92",
-      "longitude": "-117.80",
+      "longitude": "-117.8",
       "location": "NA-US-CA-BREA",
       "decomissioned": "0",
-      "distance":  "5.355973"
+      "distance":  "5.355973218580361"
     },
     {
       "zipcode": "92885",
@@ -97,7 +97,7 @@
       "longitude": "-117.82",
       "location": "NA-US-CA-YORBA LINDA",
       "decomissioned": "0",
-      "distance":  "5.777190"
+      "distance":  "5.777190428276224"
     },
     {
       "zipcode": "92862",
@@ -109,7 +109,7 @@
       "longitude": "-117.71",
       "location": "NA-US-CA-ORANGE",
       "decomissioned": "0",
-      "distance":  "6.244857"
+      "distance":  "6.244835673064102"
     },
     {
       "zipcode": "92867",
@@ -121,7 +121,7 @@
       "longitude": "-117.79",
       "location": "NA-US-CA-ORANGE",
       "decomissioned": "0",
-      "distance":  "6.287095"
+      "distance":  "6.287095157556475"
     },
     {
       "zipcode": "92880",
@@ -129,11 +129,11 @@
       "city": "CORONA",
       "state": "CA",
       "location_type": "PRIMARY",
-      "latitude": "33.90",
+      "latitude": "33.9",
       "longitude": "-117.61",
       "location": "NA-US-CA-CORONA",
       "decomissioned": "0",
-      "distance":  "6.458642"
+      "distance":  "6.458641676046268"
     },
     {
       "zipcode": "92811",
@@ -145,7 +145,7 @@
       "longitude": "-117.83",
       "location": "NA-US-CA-ATWOOD",
       "decomissioned": "0",
-      "distance":  "6.460086"
+      "distance":  "6.460086398727319"
     },
     {
       "zipcode": "92859",
@@ -153,11 +153,11 @@
       "city": "ORANGE",
       "state": "CA",
       "location_type": "PRIMARY",
-      "latitude": "33.80",
+      "latitude": "33.8",
       "longitude": "-117.78",
       "location": "NA-US-CA-ORANGE",
       "decomissioned": "0",
-      "distance":  "6.512262"
+      "distance":  "6.512262297105051"
     }
   ]
 }

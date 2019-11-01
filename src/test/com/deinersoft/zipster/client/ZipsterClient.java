@@ -1,7 +1,7 @@
 package test.java.com.deinersoft.zipster.client;
 
-import main.java.com.deinersoft.zipster.core.PostOffice;
-import main.java.com.deinersoft.zipster.server.ZipsterServer;
+import com.deinersoft.zipster.core.PostOffice;
+import com.deinersoft.zipster.server.ZipsterServer;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.common.SingleRootFileSource;

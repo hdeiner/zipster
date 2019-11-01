@@ -1,8 +1,7 @@
-package test.java.com.deinersoft.zipster;
+package test.com.deinersoft.zipster;
 
 import cucumber.api.DataTable;
-import jdk.nashorn.internal.parser.JSONParser;
-import main.java.com.deinersoft.zipster.core.PostOffice;
+import com.deinersoft.zipster.core.PostOffice;
 import org.json.JSONObject;
 import test.java.com.deinersoft.zipster.client.ZipsterClient;
 import cucumber.api.java.en.Given;
@@ -79,14 +78,13 @@ public class Zipster_StepDefs {
                         (postOfficesExpected.get(j).latitude.equals(postOfficeRowReturned.latitude)) &&
                         (postOfficesExpected.get(j).longitude.equals(postOfficeRowReturned.longitude)) &&
                         (postOfficesExpected.get(j).location.equals(postOfficeRowReturned.location)) &&
-                        (postOfficesExpected.get(j).decomissioned.equals(postOfficeRowReturned.decomissioned)) &&
-                        (postOfficesExpected.get(j).distance.equals(postOfficeRowReturned.distance))
+                        (postOfficesExpected.get(j).decomissioned.equals(postOfficeRowReturned.decomissioned))
+//                        (postOfficesExpected.get(j).distance.equals(postOfficeRowReturned.distance))
                 ) {
                     foundRow = true;
                 }
             }
             if (!foundRow) {
-                System.console().printf("No match for " + postOfficeRowReturned.toString());
                 foundAllRows = false;
             }
         }
