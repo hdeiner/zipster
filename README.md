@@ -17,7 +17,6 @@ Architecturally, we will use the following framworks and tools:
 
 TO DO:
 
-- the Java code itself for Spark 
 - Vault stuff
 
 I still have an issue with the choice of MySQL, as it stores it's data in a Docker Volume.  That means that I can't store the database and the data as an easy to use image.  I am forced to build it from it's "source" every time I want to use it.
