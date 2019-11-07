@@ -1,0 +1,70 @@
+version: "3.6"
+services:
+  vault:
+    image: vault:latest
+    container_name: vaultserver
+    ports:
+      - "8200:8200"
+#    volumes:
+#      - ./vault/config:/vault/config
+#      - ./vault/policies:/vault/policies
+#      - ./vault/data:/vault/data
+#      - ./vault/logs:/vault/logs
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_ADDR: 'http://0.0.0.0:8200'
+      VAULT_API_ADDR: 'http://0.0.0.0:8200'
+      VAULT_LOCAL_CONFIG: >-
+        {
+          "listener": [{
+                         "tcp": {
+                           "address": "0.0.0.0:8200",
+                           "tls_disable" : 1
+                         }
+                       }],
+          "storage": {
+            "file": {
+              "path" : "/vault/data"
+            }
+          },
+          "max_lease_ttl": "10h",
+          "default_lease_ttl": "10h",
+          "ui": true
+        }
+    command: server
+    restart: always
+  wiremock:
+    image: rodolpheche/wiremock
+    container_name: wiremock
+    ports:
+      - "9001:8080"
+    volumes:
+      - ./wiremock:/home/wiremock
+    restart: always
+  zipster:
+    depends_on:
+      - mysql
+    image: howarddeiner/zipster-spark
+    container_name: zipster
+    ports:
+      - "9002:9002"
+    volumes:
+      - /tmp/config:/tmp/config
+    restart: always
+  mysql:
+    image: mysql:5.7
+#    image: howarddeiner/zipster-mysql
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: 'zipster'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    volumes:
+      - zipster-mysql-data:/var/lib/mysql
+    restart: always
+volumes:
+  zipster-mysql-data:

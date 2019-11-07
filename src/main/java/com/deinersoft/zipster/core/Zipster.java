@@ -1,12 +1,17 @@
 package main.java.com.deinersoft.zipster.core;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Zipster {
 
@@ -25,22 +30,64 @@ public class Zipster {
         resultSet.put("radius", radius);
         resultSet.put("zipcode", zipcode);
 
+        String environment = "";
+        String vault_addr = "";
+        String vault_token = "";
         try {
-//                InputStream inputStream = new FileInputStream("/usr/local/tomcat/webapps/passwordAPI_properties/oracleConfig.properties");
-//                Properties properties = new Properties();
-//                properties.load(inputStream);
-//                String url = properties.getProperty("url");
-//                String user = properties.getProperty("user");
-//                String password = properties.getProperty("password");
-//            String url = "jdbc:mysql://0.0.0.0:3306/zipster?useSSL=false";
-            String url = "jdbc:mysql://mysql:3306/zipster?useSSL=false";
-            String user = "root";
-            String password = "password";
+            environment = new String(Files.readAllBytes(Paths.get("/tmp/config/zipster/environment"))).trim();
+            vault_addr = new String(Files.readAllBytes(Paths.get("/tmp/config/zipster/vault_addr"))).trim();
+            vault_token = new String(Files.readAllBytes(Paths.get("/tmp/config/zipster/vault_token"))).trim();
+        } catch (Exception e) {
+            environment = "DESKTOP";
+            vault_addr = "http://localhost:8200";
+            try {
+                vault_token = new String(Files.readAllBytes(Paths.get("./.vault_root_token")));
+            } catch (Exception ex) {
+                resultSet.put("Could not read ./.vault_root_token", e.getMessage());
+            }
+        }
 
+        String dbURL = "jdbc:mysql://localhost:3306/zipster?useSSL=false";
+        String dbUSER = "root";
+        String dbPASSWORD = "password";
+        try {
+            if (!environment.equals("")) {
+                String shellCommand = "vault login -address=\"" + vault_addr +"\" -format=json " + vault_token;
+                ProcessBuilder pbVaultLogin = new ProcessBuilder("bash", "-c", shellCommand);
+                String pbVaultLoginOutput = IOUtils.toString(pbVaultLogin.start().getInputStream());
+
+                shellCommand = "vault kv get -address=\"" + vault_addr + "\" -format=json  ENVIRONMENTS/" + environment + "/MYSQL";
+                ProcessBuilder pbVaultKvGet = new ProcessBuilder("bash", "-c", shellCommand);
+                String pbVaultKvGetOutput = IOUtils.toString(pbVaultKvGet.start().getInputStream());
+
+                String sPatternUrl = "(\\\"url\\\"\\:)\\W*\\\"(.*)\\\"";
+                Pattern patternUrl = Pattern.compile(sPatternUrl);
+                Matcher matcherUrl = patternUrl.matcher(pbVaultKvGetOutput);
+                matcherUrl.find();
+                dbURL = matcherUrl.group(2);
+
+                String sPatternUser = "(\\\"user\\\"\\:)\\W*\\\"(.*)\\\"";
+                Pattern patternUser = Pattern.compile(sPatternUser);
+                Matcher matcherUser = patternUser.matcher(pbVaultKvGetOutput);
+                matcherUser.find();
+                dbUSER = matcherUser.group(2);
+
+                String sPatternPassword = "(\\\"password\\\"\\:)\\W*\\\"(.*)\\\"";
+                Pattern patternPassword = Pattern.compile(sPatternPassword);
+                Matcher matcherPassword = patternPassword.matcher(pbVaultKvGetOutput);
+                matcherPassword.find();
+                dbPASSWORD = matcherPassword.group(2);
+            }
+        } catch (Exception e) {
+            resultSet.put("Got an exception!", e.getMessage());
+        }
+
+
+        try {
             TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
             TimeZone.setDefault(timeZone);
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            Connection conn = DriverManager.getConnection(url,user,password);
+            Connection conn = DriverManager.getConnection(dbURL,dbUSER,dbPASSWORD);
             Statement stmt = conn.createStatement();
             ResultSet rs;
 
