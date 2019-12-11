@@ -24,9 +24,9 @@ figlet -w 160 -f small "Ready MySQL for FlyWay"
 echo "CREATE USER 'FLYWAY' IDENTIFIED BY 'FLWAY';" | mysql -h 127.0.0.1 -P 3306 -u root --password=password  zipster > /dev/null
 
 figlet -w 160 -f small "Create Our Database"
-./flyway-4.2.0/flyway info
-./flyway-4.2.0/flyway migrate
-./flyway-4.2.0/flyway info
+../flyway-4.2.0/flyway info
+../flyway-4.2.0/flyway migrate
+../flyway-4.2.0/flyway info
 
 figlet -w 160 -f small "Bring Down MySQL Continer"
 docker-compose -f docker-compose-mysql.yml down
