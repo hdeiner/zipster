@@ -1,8 +1,8 @@
-@Local
-Feature: Zipster_Local
+@Concrete
+Feature: Zipster_Concrete
 
   Background: Start server
-    Given I start the "Local" server
+    Given I use the "Concrete" server
 
   Scenario: Zipcodes near Pequannock NJ
     When I look for zipcodes within "2.0" miles of "07440"
@@ -39,6 +39,3 @@ Feature: Zipster_Local
       | 92880   | STANDARD     | CORONA         | CA    | PRIMARY       | 33.9     | -117.61   | NA-US-CA-CORONA         | 0             | 6.458641676046268  |
       | 92811   | PO BOX       | ATWOOD         | CA    | PRIMARY       | 33.86    | -117.83   | NA-US-CA-ATWOOD         | 0             | 6.460086398727319  |
       | 92859   | PO BOX       | ORANGE         | CA    | PRIMARY       | 33.8     | -117.78   | NA-US-CA-ORANGE         | 0             | 6.512262297105051  |
-
-  Scenario: Stop server
-    Then I stop the server

@@ -106,7 +106,7 @@
                     <testFailureIgnore>true</testFailureIgnore>
                     <includes>
                         <include>**/UnitTestsZipster.java</include>
-                        <include>**/CucumberTestsZipsterLocal.java</include>
+                        <include>**/CucumberTestsZipsterWiremockAndConcrete.java</include>
                     </includes>
                 </configuration>
             </plugin>

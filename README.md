@@ -1,6 +1,7 @@
 How to create and test a modern REST API in a server farm environment.
 
-Let's say we want to design a REST API that can take a zipcode and a radius and return all the zipcodes within a certain number of miles to the given cente.
+##### Concept
+Let's say we want to design a REST API that can take a zipcode and a radius and return all the zipcodes within a certain number of miles to the given center of that zipcode.
 
 Architecturally, we will use the following framworks and tools:
 
@@ -15,41 +16,72 @@ Architecturally, we will use the following framworks and tools:
     - in AWS cloud (using Terraform)
 - Vault will also be a vital component of this project.  We will use it for holding together environments, the endpoints in those environments,and the secrets needed for those environments.
 
-Explanation of the scripts to run:
+Here's a sample of what zipster does:
+![curl-results-sample](./images/curl-results-sample.png)
 
-1. part_1_create_images/step_1_dockerize_zipster-mysql.sh
-    1. Bring up MySQL in a container
-    1. Once MySQL starts, run FlyWay to establish schema and data
-    1. Bring down the MySQL container
-1. part_1_create_images/step_2_dockerize_zipster-spark.sh
-    1. Build a clean jar for the server with all dependencies baked in
-    1. Copy the built jar and the vault cli client for imcludion in the image
-    1. Build the container from a custom Dockerfile 
-1. part_1_create_images/step_3_push_images.sh
-    1. Authenticate to DockerHub
-    1. Push the zipster-spark container to DockerHub (the zipster-mysql container does not contain it's data yet, so pushing it won't help bring back a container ready to run easily)
-1. part_2_test_in_docker_composed_environment/step_1_start_docker-compose_vault-mysql-wiremock-zipster_environment.sh
-    1. Initialize the /tmp/config/zipster mount point (which will contain information for containers to use Vault to self configure endpoints and secrets)
-    1. Bring up a docker-compose environment for vault, mysql, wiremock, and the zipster server
-    1. Wait for each container to start
-1. part_2_test_in_docker_composed_environment/step_2_setup_vault_in_vault-mysql-wiremock-zipster_environment.sh
-    1. Unseal the vault server and save the root token
-    1. Create versioned kv secrets for UUIDs and ENVIRONMENTS
-1. part_2_test_in_docker_composed_environment/step_3_ready_vault_in_vault-mysql-wiremock-zipster_environment.sh
-    1. Create UUIDs for WireMock, MySQL, and Zipster and store those in the Vault UUID kv
-    1. Create a DOCKER_COMPOSED ENVIRONMENT for each component, storing information such as endpoint, url, user, and password for dependent containers to use for self-configuration
-1. part_2_test_in_docker_composed_environment/step_4_verify_in_vault-mysql-wiremock-zipster_environment.sh
-    1. Write Vault access information into /tmp/config/zipster, so zipster container can query Vault at correct URL and token for the DOCKER_COMPOSED environment
-    1. Use mvn to run all tests
-1. part_2_test_in_docker_composed_environment/step_5_destroy_vault-mysql-wiremock-zipster_environment.sh
-    1. Bring down the docker-compose environment
-    1. Cleanup
-1.  part_3_test_in_desktop_environment is the same as part_2_test_in_docker_composed_environment, but for a DESKTOP environment, except here, vault, mysql, and wiremock all run in containers, and the zipster server and the zipster tests run on the desktop.
-    1.  It is shown here to demomstrate how nothing has to change in the zipster code to self-configure to endpoints (mysql and vault in this case), where the addresses used will be different.
+---
+##### Explanation of the scripts to run.  
+A play in 4 acts.  The scripts are broken down into fairly small chunks so you can execute the script and look carefully at the results, such as what the AWS console looks like, what the Vault server shows, the test results, etc.  This project is designed to learn from, not be a production solution.
 
+###### We first have part_1_create images.  
+
+Our job here is to create images ready to go for both our code and our database backend.
+
+- step_1_dockerize_zipster_mysql starts up a MySQL container, and uses FlyWay to load the test data into the database.
+- step_2_dockerize_zipster_spark builds a fresh jar with all dependencies baked in, and starts up a Spark container with everytthing ready to go.  
+- step_3_push_images does just that.  The newly baked container are pushed up to DockerHub.
+
+##### So, what can we do with these images?  part_2_test_in_docker_composed_environment begins the journey.
+How about we start with a test that runs all the necessary containers for integration testing right on our desktop?
+
+![part_2](./images/part_2_test_in_docker_composed_environment.png)
+
+- step_1_start_docker-compose_vault-mysql-wiremock-zipster_environment bring up docker composed containers.  Ready the Vault injection point at /tmp/config/zipster.  We will hold 3 files there: an environment, vault_addr, and vault_token.
+- step_2_setup_vault_in_vault-mysql-wiremock-zipster_environment sets up Vault.  This means unsealing Vault, and saving the initial root token.  It also means seting up a key/value version 2 store for UUIDS and ENVIRONMENTS.  Each container will be assigned a UUID, and ENVIRONMENTS will contain unique values (in this projects, values such as DOCKER_COMPOSED and AWS_DEMO are used).  Furthermore, a taxonomy is established to store secrets, such as the following.
+
+![vault_sample](./images/vault_sample.png)
+
+- step_3_ready_vault_in_vault-mysql-wiremock-zipster_environment contacts the Vault server and places key/value pairs in Vault that allow the connections to occur.  It also injects values into /tmp/config/zipster so the test client can find the zipster server.
+- step_4_verify_in_vault-mysql-wiremock-zipster_environment runs the tests from maven against both the WireMock and Zipster servers.
+- step_5_destroy_docker-compose_vault-mysql-wiremock-zipster_environment does exactly what it says.  It uses docker-compose to bring down the environment and cleans up.
+
+##### part_3_test_in_desktop_environment mixes it up a little.
+Now, let's try running the Zipster server on the desktop, the maven test code on the desktop, and everything else in Docker running on our machine?
+
+![part_3](./images/part_3_test_in_desktop_environment.png)
+
+- step_1_start_docker-compose_vault-mysql-wiremock_environment bring up docker composed containers.  Ready the Vault injection point at /tmp/config/zipster.  We will hold 3 files there: an environment, vault_addr, and vault_token.
+- step_2_setup_vault_in_vault-mysql-wiremock_environment sets up Vault.  This means unsealing Vault, and saving the initial root token.  It also means seting up a key/value version 2 store for UUIDS and ENVIRONMENTS.  Each container will be assigned a UUID, and ENVIRONMENTS will contain unique values (in this projects, values such as DOCKER_COMPOSED and AWS_DEMO are used).  The taxonomy established here is similar to the DOCKER_COMPOSED environment, except this one is called DESKTOP.
+- step_3_ready_vault_in_vault-mysql-wiremock_environment contacts the Vault server and places key/value pairs in Vault that allow the connections to occur.  It also injects values into /tmp/config/zipster so the test client can find the zipster server.
+- step_4_verify_in_vault-mysql-wiremock_environment runs the tests from maven against both the WireMock and Zipster servers.  Except, in this part, we run the zipster server in the background directly on the desktop, then run the tests, then kill the server we started.
+- step_5_destroy_docker-compose_vault-mysql-wiremock_environment does exactly what it says.  It uses docker-compose to bring down the environment and cleans up.
+
+##### part_4_test_in_aws_environment goes nuts and uses the cloud to do our bidding.
+Here, instead of using docker-compose to orchestrate local containers, we will use terraform to orchestrate AWS resources to do everything remotely.
+
+![part_4](./images/part_4_test_in_aws_environment.png)
+
+- step_1_terraform_aws_environment does just that. Terraform output for the EC2 instances are saved locally for contact with the machines later in the process.  Here's what the AWS console looks like when the terraform script completes:
+
+![aws_console_sample](./images/aws_console_sample.png)
+
+- step_2_provision_vault_in_aws does it's dirty work by sending up vault initialization scripts using bolt that establish a Docker environment on the instance, starting up a Vault container, waiting for it to start, and then parsing out the initial root token.
+- step_3_provision_wiremock_in_aws does it's dirty work by sending up wiremock initialization scripts using bolt (along with the WireMock faking files) that establish a Docker environment on the instance, starting up a WireMock container, and waiting for it to start.
+- step_4_provision_mysql_in_aws does its work by sending up MySQL initialization scripts using bolt that establishes a Docker environment on the instance, starting up a MySQL container, and waiting for it to start.  Right now, it also sends up FlyWay and runs it to establish the database state.  Once I fix the MySQL container from the first part, this FlyWay migration will no longer be necessary, as I will simply use the DockerHub image that I created in  the first part.
+- step_5_provision_zipster-spark_in_aws goes about its task by sending up an initialization script using bolt that establishes a Docker environment on the instance, starting up the zipster-spark container from DockerHub, and waiting for it to start.  Right now, it also copies the injected environment, vault_addr, and vault_token into the container from the instance, even though it is volume mapped into the container.  This should be fixable by working with the Dockerfile for the image.
+- step_6_provision_and_run_testrunner_in_aws works by first contacting Vault and creating all the endpoints and secrets needed for the integration testing to occur.  It then uploads the environment injection information to the testrunner instance (environment, vault_addr, and vault_token) so that the test client can ask Vault for information to talk to Zipster.  It then uploads a provisioning script to the instance which establishes an environment for testing (Java, Maven, and the code that drives the tests through Maven).  Finally, it executes the tests, which exercice everything that we setup.
+- step_7_teardown_aws_environment is quite simple.  It runs terraform to destroy the environments that we so carefuly crafted, which proves that it's much easier to destroy than create.  But we can simply the scripts again, and we will get reproducable results each and every time.
+
+---
+
+##### What have we demonstrated?
+
+- There is value in always deploying our applications the same way.  I choose Docker containers, because I can quickly deploy to my desktop in a docker-composed environment in a very similar way to terraforming an orchestrated set of AWS EC2 containers.
+- Difficult endpoint and secrets management can become a thing of the past with automated and perhaps a centralized Vault.
+
+---
 TO DO:
 
-- All of the terraform / AWS hosting.
-- I still have an issue with the choice of MySQL, as it stores it's data in a Docker Volume.  That means that I can't store the database and the data as an easy to use image.  I am forced to build it from it's "source" every time I want to use it.
+- I still have an issue with the choice of MySQL, as it stores it's data in a Docker Volume.  That means that I can't store the database and the data as an easy to use image.  I am forced to build it from it's "source" every time I want to use it.  See https://medium.com/@pybrarian/mysql-databases-that-dont-retain-data-293bc2ed7f02
+- There's something fishy with the zipster container.  I want to be able to simply volume mount the /tmp/config/zipster files, but perhaps I need to create them in teh Dockerfile first?  For now, I simply copy them into place.
 
-See https://medium.com/@pybrarian/mysql-databases-that-dont-retain-data-293bc2ed7f02

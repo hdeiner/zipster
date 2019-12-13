@@ -9,13 +9,13 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
 //      dryRun   = false,
 //      strict = true,
-        tags     = "@WireMock, @Local",
+        tags     = "@WireMock, @Concrete",
         monochrome = false,
         features = { "src/test/java/com/deinersoft/zipster/resources/features" },
         glue     = { "test.java.com.deinersoft.zipster" },
         plugin   = { "pretty", "html:target/cucumber-reports-local/cucumber-html-report", "json:target/cucumber-reports-local/cucumber-json-report.json" }
 )
 
-public class CucumberTestsZipsterLocal {
+public class CucumberTestsZipsterWiremockAndConcrete {
 
 }

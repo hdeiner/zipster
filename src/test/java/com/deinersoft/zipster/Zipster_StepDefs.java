@@ -22,20 +22,9 @@ public class Zipster_StepDefs {
     private String test_zipcode;
     private String test_radius;
 
-    @Given("^I start the \"([^\"]*)\" server$")
-    public void i_start_the_local_server(String whichServer) throws Throwable {
-        if (!whichServerStarted.equals(whichServer)) {
-            if (!whichServerStarted.equals("")) zipsterClient.stopServer();
+    @Given("^I use the \"([^\"]*)\" server$")
+    public void i_use_the_local_server(String whichServer) throws Throwable {
             zipsterClient = new ZipsterClient(whichServer);
-            zipsterClient.startServer();
-            whichServerStarted = whichServer;
-        }
-    }
-
-    @Then("^I stop the server$")
-    public void i_stop_the_server() throws Throwable {
-        if (!whichServerStarted.equals("")) zipsterClient.stopServer();
-        whichServerStarted = "";
     }
 
     @When("^I look for zipcodes within \"([^\"]*)\" miles of \"([^\"]*)\"$")

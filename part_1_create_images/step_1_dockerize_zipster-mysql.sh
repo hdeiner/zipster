@@ -8,7 +8,7 @@ figlet -w 160 -f small "Create MySQL Data Container"
 
 figlet -w 160 -f small "Bring Up MySQL Continer"
 docker volume rm zipster_zipster-mysql-data
-docker-compose -f docker-compose-mysql.yml up -d
+docker-compose -f ../docker-compose-mysql.yml up -d
 
 figlet -w 160 -f small "Wait for MySQL to Start"
 while true ; do
@@ -29,7 +29,7 @@ figlet -w 160 -f small "Create Our Database"
 ../flyway-4.2.0/flyway info
 
 figlet -w 160 -f small "Bring Down MySQL Continer"
-docker-compose -f docker-compose-mysql.yml down
+docker-compose -f ../docker-compose-mysql.yml down
 
 #figlet -w 160 -f standard "Create zipster-mysql Image"
 

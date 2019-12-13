@@ -39,7 +39,7 @@ public class Zipster {
             vault_token = new String(Files.readAllBytes(Paths.get("/tmp/config/zipster/vault_token"))).trim();
         } catch (Exception e) {
             environment = "DESKTOP";
-            vault_addr = "http://localhost:8200";
+            vault_addr = "localhost";
             try {
                 vault_token = new String(Files.readAllBytes(Paths.get("./.vault_root_token")));
             } catch (Exception ex) {
@@ -47,16 +47,16 @@ public class Zipster {
             }
         }
 
-        String dbURL = "jdbc:mysql://localhost:3306/zipster?useSSL=false";
+        String dbURL = "jdbc:mysql://mysql:3306/zipster?useSSL=false";
         String dbUSER = "root";
         String dbPASSWORD = "password";
         try {
             if (!environment.equals("")) {
-                String shellCommand = "vault login -address=\"" + vault_addr +"\" -format=json " + vault_token;
+                String shellCommand = "vault login -address=\"http://" + vault_addr +":8200\" -format=json " + vault_token;
                 ProcessBuilder pbVaultLogin = new ProcessBuilder("bash", "-c", shellCommand);
                 String pbVaultLoginOutput = IOUtils.toString(pbVaultLogin.start().getInputStream());
 
-                shellCommand = "vault kv get -address=\"" + vault_addr + "\" -format=json  ENVIRONMENTS/" + environment + "/MYSQL";
+                shellCommand = "vault kv get -address=\"http://" + vault_addr + ":8200\" -format=json  ENVIRONMENTS/" + environment + "/MYSQL";
                 ProcessBuilder pbVaultKvGet = new ProcessBuilder("bash", "-c", shellCommand);
                 String pbVaultKvGetOutput = IOUtils.toString(pbVaultKvGet.start().getInputStream());
 
@@ -81,7 +81,6 @@ public class Zipster {
         } catch (Exception e) {
             resultSet.put("Got an exception!", e.getMessage());
         }
-
 
         try {
             TimeZone timeZone = TimeZone.getTimeZone("America/New_York");

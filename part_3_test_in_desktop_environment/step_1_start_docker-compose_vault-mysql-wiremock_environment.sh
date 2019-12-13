@@ -7,7 +7,7 @@ touch /tmp/config/zipster/environment
 touch /tmp/config/zipster/vault_addr
 touch /tmp/config/zipster/vault_token
 
-docker-compose -f docker-compose-vault-mysql-wiremock.yml up -d
+docker-compose -f ../docker-compose-vault-mysql-wiremock.yml up -d
 
 figlet -w 160 -f small "Wait for Vault to Start"
 while true ; do

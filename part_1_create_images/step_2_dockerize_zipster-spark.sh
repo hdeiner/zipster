@@ -4,6 +4,8 @@ figlet -w 160 -f standard "Dockerize zipster-spark"
 
 figlet -w 160 -f small "Clean, Compile, and Jar"
 
+cd ..
+
 mvn clean compile
 
 figlet -w 160 -f small "Build Docker Image"
@@ -17,3 +19,5 @@ docker build src/iac/docker-spark -t howarddeiner/zipster-spark
 
 rm src/iac/docker-spark/zipster-1.0-SNAPSHOT-jar-with-dependencies.jar
 rm src/iac/docker-spark/vault
+
+cd -
