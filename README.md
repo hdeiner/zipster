@@ -17,7 +17,7 @@ Architecturally, we will use the following framworks and tools:
 - Vault will also be a vital component of this project.  We will use it for holding together environments, the endpoints in those environments,and the secrets needed for those environments.
 
 Here's a sample of what zipster does:
-![curl-results-sample](./images/curl-results-sample.png)
+![curl-results-sample](assets/curl-results-sample.png)
 
 ---
 ##### Explanation of the scripts to run.  
@@ -34,12 +34,12 @@ Our job here is to create images ready to go for both our code and our database 
 ##### So, what can we do with these images?  part_2_test_in_docker_composed_environment begins the journey.
 How about we start with a test that runs all the necessary containers for integration testing right on our desktop?
 
-![part_2](./images/part_2_test_in_docker_composed_environment.png)
+![part_2](assets/part_2_test_in_docker_composed_environment.png)
 
 - step_1_start_docker-compose_vault-mysql-wiremock-zipster_environment bring up docker composed containers.  Ready the Vault injection point at /tmp/config/zipster.  We will hold 3 files there: an environment, vault_addr, and vault_token.
 - step_2_setup_vault_in_vault-mysql-wiremock-zipster_environment sets up Vault.  This means unsealing Vault, and saving the initial root token.  It also means seting up a key/value version 2 store for UUIDS and ENVIRONMENTS.  Each container will be assigned a UUID, and ENVIRONMENTS will contain unique values (in this projects, values such as DOCKER_COMPOSED and AWS_DEMO are used).  Furthermore, a taxonomy is established to store secrets, such as the following.
 
-![vault_sample](./images/vault_sample.png)
+![vault_sample](assets/vault_sample.png)
 
 - step_3_ready_vault_in_vault-mysql-wiremock-zipster_environment contacts the Vault server and places key/value pairs in Vault that allow the connections to occur.  It also injects values into /tmp/config/zipster so the test client can find the zipster server.
 - step_4_verify_in_vault-mysql-wiremock-zipster_environment runs the tests from maven against both the WireMock and Zipster servers.
@@ -48,7 +48,7 @@ How about we start with a test that runs all the necessary containers for integr
 ##### part_3_test_in_desktop_environment mixes it up a little.
 Now, let's try running the Zipster server on the desktop, the maven test code on the desktop, and everything else in Docker running on our machine?
 
-![part_3](./images/part_3_test_in_desktop_environment.png)
+![part_3](assets/part_3_test_in_desktop_environment.png)
 
 - step_1_start_docker-compose_vault-mysql-wiremock_environment bring up docker composed containers.  Ready the Vault injection point at /tmp/config/zipster.  We will hold 3 files there: an environment, vault_addr, and vault_token.
 - step_2_setup_vault_in_vault-mysql-wiremock_environment sets up Vault.  This means unsealing Vault, and saving the initial root token.  It also means seting up a key/value version 2 store for UUIDS and ENVIRONMENTS.  Each container will be assigned a UUID, and ENVIRONMENTS will contain unique values (in this projects, values such as DOCKER_COMPOSED and AWS_DEMO are used).  The taxonomy established here is similar to the DOCKER_COMPOSED environment, except this one is called DESKTOP.
@@ -59,11 +59,11 @@ Now, let's try running the Zipster server on the desktop, the maven test code on
 ##### part_4_test_in_aws_environment goes nuts and uses the cloud to do our bidding.
 Here, instead of using docker-compose to orchestrate local containers, we will use terraform to orchestrate AWS resources to do everything remotely.
 
-![part_4](./images/part_4_test_in_aws_environment.png)
+![part_4](assets/part_4_test_in_aws_environment.png)
 
 - step_1_terraform_aws_environment does just that. Terraform output for the EC2 instances are saved locally for contact with the machines later in the process.  Here's what the AWS console looks like when the terraform script completes:
 
-![aws_console_sample](./images/aws_console_sample.png)
+![aws_console_sample](assets/aws_console_sample.png)
 
 - step_2_provision_vault_in_aws does it's dirty work by sending up vault initialization scripts using bolt that establish a Docker environment on the instance, starting up a Vault container, waiting for it to start, and then parsing out the initial root token.
 - step_3_provision_wiremock_in_aws does it's dirty work by sending up wiremock initialization scripts using bolt (along with the WireMock faking files) that establish a Docker environment on the instance, starting up a WireMock container, and waiting for it to start.
