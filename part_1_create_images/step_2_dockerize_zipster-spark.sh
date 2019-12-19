@@ -21,3 +21,8 @@ rm src/iac/docker-spark/zipster-1.0-SNAPSHOT-jar-with-dependencies.jar
 rm src/iac/docker-spark/vault
 
 cd -
+
+figlet -w 160 -f small "Push the Zipster Spark Image"
+docker login
+docker push howarddeiner/zipster-spark
+

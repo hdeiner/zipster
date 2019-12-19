@@ -53,8 +53,8 @@ services:
       - /tmp/config:/tmp/config
     restart: always
   mysql:
-    image: mysql:5.7
-#    image: howarddeiner/zipster-mysql
+#    image: mysql:5.7
+    image: howarddeiner/zipster-mysql
     container_name: mysql
     ports:
       - "3306:3306"
@@ -63,8 +63,6 @@ services:
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
-    volumes:
-      - zipster-mysql-data:/var/lib/mysql
     restart: always
-volumes:
-  zipster-mysql-data:
+    volumes:
+      - ./mysql-data:/var/lib/mysql

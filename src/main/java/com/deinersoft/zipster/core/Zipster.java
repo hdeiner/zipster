@@ -47,18 +47,24 @@ public class Zipster {
             }
         }
 
+        System.out.println("Zipster        environment="+environment);
+        System.out.println("Zipster         vault_addr="+vault_addr);
+        System.out.println("Zipster        vault_token="+vault_token);
+
         String dbURL = "jdbc:mysql://mysql:3306/zipster?useSSL=false";
         String dbUSER = "root";
         String dbPASSWORD = "password";
         try {
             if (!environment.equals("")) {
                 String shellCommand = "vault login -address=\"http://" + vault_addr +":8200\" -format=json " + vault_token;
-                ProcessBuilder pbVaultLogin = new ProcessBuilder("bash", "-c", shellCommand);
+                System.out.println("Zipster       shellCommand="+shellCommand);                ProcessBuilder pbVaultLogin = new ProcessBuilder("bash", "-c", shellCommand);
                 String pbVaultLoginOutput = IOUtils.toString(pbVaultLogin.start().getInputStream());
 
                 shellCommand = "vault kv get -address=\"http://" + vault_addr + ":8200\" -format=json  ENVIRONMENTS/" + environment + "/MYSQL";
+                System.out.println("Zipster       shellCommand="+shellCommand);
                 ProcessBuilder pbVaultKvGet = new ProcessBuilder("bash", "-c", shellCommand);
                 String pbVaultKvGetOutput = IOUtils.toString(pbVaultKvGet.start().getInputStream());
+                System.out.println("Zipster pbVaultKvGetOutput="+pbVaultKvGetOutput);
 
                 String sPatternUrl = "(\\\"url\\\"\\:)\\W*\\\"(.*)\\\"";
                 Pattern patternUrl = Pattern.compile(sPatternUrl);

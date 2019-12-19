@@ -12,12 +12,16 @@ sudo apt-get -qq update
 # Install Docker
 sudo apt-get -qq install -y docker-ce
 
+# Install docker-compose
+sudo curl -L https://github.com/docker/compose/releases/download/1.25.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
 # Install mysql client
 sudo apt install -y mysql-client
 
 echo "Start the Mysql server"
-sudo docker network create -d bridge mynetwork
-sudo docker run -d -p 3306:3306 -v $(pwd)/zipster-mysql-data:/var/lib/mysql -e MYSQL_DATABASE=zipster -e MYSQL_USER=user -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=password --network=mynetwork --name mysql  mysql:5.7
+sudo tar -xf mysql-data.tar.gz
+sudo docker-compose -f ./docker-compose-mysql-and-mysql-data.yml up -d
 
 while true ; do
   result=$(sudo docker logs mysql 2>&1 | grep -c "Version: '5.7.28'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)")
@@ -27,6 +31,3 @@ while true ; do
   fi
   sleep 5
 done
-
-echo "CREATE USER 'FLYWAY' IDENTIFIED BY 'FLWAY';" | mysql -h 127.0.0.1 -P 3306 -u root --password=password  zipster > /dev/null
-./flyway-4.2.0/flyway migrate

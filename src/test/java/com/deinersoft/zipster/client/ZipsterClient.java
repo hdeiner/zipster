@@ -43,12 +43,12 @@ public class ZipsterClient {
             throw e;
         }
 
-//        System.out.println("ZipsterClient        environment="+environment);
-//        System.out.println("ZipsterClient         vault_addr="+vault_addr);
-//        System.out.println("ZipsterClient        vault_token="+vault_token);
+        System.out.println("ZipsterClient        environment="+environment);
+        System.out.println("ZipsterClient         vault_addr="+vault_addr);
+        System.out.println("ZipsterClient        vault_token="+vault_token);
 
         String shellCommand = "vault login -address=\"http://" + vault_addr +":8200\" -format=json " + vault_token;
-//        System.out.println("ZipsterClient       shellCommand="+shellCommand);
+        System.out.println("ZipsterClient       shellCommand="+shellCommand);
         ProcessBuilder pbVaultLogin = new ProcessBuilder("bash", "-c", shellCommand);
         String pbVaultLoginOutput = IOUtils.toString(pbVaultLogin.start().getInputStream());
 
@@ -56,10 +56,10 @@ public class ZipsterClient {
         if (whichServer.equals("Concrete")) serviceEnvironment = "ZIPSTER";
 
         shellCommand = "vault kv get -address=\"http://" + vault_addr + ":8200\" -format=json  ENVIRONMENTS/" + environment + "/" + serviceEnvironment;
-//        System.out.println("ZipsterClient       shellCommand="+shellCommand);
+        System.out.println("ZipsterClient       shellCommand="+shellCommand);
         ProcessBuilder pbVaultKvGet = new ProcessBuilder("bash", "-c", shellCommand);
         String pbVaultKvGetOutput = IOUtils.toString(pbVaultKvGet.start().getInputStream());
-//        System.out.println("ZipsterClient pbVaultKvGetOutput="+pbVaultKvGetOutput);
+        System.out.println("ZipsterClient pbVaultKvGetOutput="+pbVaultKvGetOutput);
 
         String sPatternUrl = "(\\\"endpoint\\\"\\:)\\W*\\\"(.*)\\\"";
         Pattern patternUrl = Pattern.compile(sPatternUrl);

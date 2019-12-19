@@ -8,6 +8,10 @@ touch /tmp/config/zipster/environment
 touch /tmp/config/zipster/vault_addr
 touch /tmp/config/zipster/vault_token
 
+cd ..
+echo password | sudo tar -xf mysql-data.tar.gz
+cd -
+
 docker-compose -f ../docker-compose-vault-mysql-wiremock-zipster.yml up -d
 
 figlet -w 160 -f small "Wait for Vault to Start"

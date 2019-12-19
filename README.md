@@ -27,7 +27,7 @@ A play in 4 acts.  The scripts are broken down into fairly small chunks so you c
 
 Our job here is to create images ready to go for both our code and our database backend.
 
-- step_1_dockerize_zipster_mysql starts up a MySQL container, and uses FlyWay to load the test data into the database.
+- step_1_dockerize_zipster_mysql starts up a MySQL container, and uses FlyWay to load the test data into the database.  The files that the database uses are serialed into a tarball that will be used later, when we start up database containers.
 - step_2_dockerize_zipster_spark builds a fresh jar with all dependencies baked in, and starts up a Spark container with everytthing ready to go.  
 - step_3_push_images does just that.  The newly baked container are pushed up to DockerHub.
 
@@ -67,7 +67,7 @@ Here, instead of using docker-compose to orchestrate local containers, we will u
 
 - step_2_provision_vault_in_aws does it's dirty work by sending up vault initialization scripts using bolt that establish a Docker environment on the instance, starting up a Vault container, waiting for it to start, and then parsing out the initial root token.
 - step_3_provision_wiremock_in_aws does it's dirty work by sending up wiremock initialization scripts using bolt (along with the WireMock faking files) that establish a Docker environment on the instance, starting up a WireMock container, and waiting for it to start.
-- step_4_provision_mysql_in_aws does its work by sending up MySQL initialization scripts using bolt that establishes a Docker environment on the instance, starting up a MySQL container, and waiting for it to start.  Right now, it also sends up FlyWay and runs it to establish the database state.  Once I fix the MySQL container from the first part, this FlyWay migration will no longer be necessary, as I will simply use the DockerHub image that I created in  the first part.
+- step_4_provision_mysql_in_aws does its work by sending up MySQL initialization scripts using bolt that establishes a Docker environment on the instance, starting up a MySQL container, and waiting for it to start.  The data that the database uses is uploaded, untarred, and mounted for the database to use.
 - step_5_provision_zipster-spark_in_aws goes about its task by sending up an initialization script using bolt that establishes a Docker environment on the instance, starting up the zipster-spark container from DockerHub, and waiting for it to start.  Right now, it also copies the injected environment, vault_addr, and vault_token into the container from the instance, even though it is volume mapped into the container.  This should be fixable by working with the Dockerfile for the image.
 - step_6_provision_and_run_testrunner_in_aws works by first contacting Vault and creating all the endpoints and secrets needed for the integration testing to occur.  It then uploads the environment injection information to the testrunner instance (environment, vault_addr, and vault_token) so that the test client can ask Vault for information to talk to Zipster.  It then uploads a provisioning script to the instance which establishes an environment for testing (Java, Maven, and the code that drives the tests through Maven).  Finally, it executes the tests, which exercice everything that we setup.
 - step_7_teardown_aws_environment is quite simple.  It runs terraform to destroy the environments that we so carefuly crafted, which proves that it's much easier to destroy than create.  But we can simply the scripts again, and we will get reproducable results each and every time.
@@ -82,6 +82,5 @@ Here, instead of using docker-compose to orchestrate local containers, we will u
 ---
 TO DO:
 
-- I still have an issue with the choice of MySQL, as it stores it's data in a Docker Volume.  That means that I can't store the database and the data as an easy to use image.  I am forced to build it from it's "source" every time I want to use it.  See https://medium.com/@pybrarian/mysql-databases-that-dont-retain-data-293bc2ed7f02
 - There's something fishy with the zipster container.  I want to be able to simply volume mount the /tmp/config/zipster files, but perhaps I need to create them in teh Dockerfile first?  For now, I simply copy them into place.
 
