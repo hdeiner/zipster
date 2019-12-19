@@ -5,6 +5,7 @@ Let's say we want to design a REST API that can take a zipcode and a radius and 
 
 Architecturally, we will use the following framworks and tools:
 
+- Docker containers.  Lots of them.
 - Java (for our code)
 - Spark (for running a small REST server)
 - MySQL (for persistence of a zipcode database)
