@@ -9,7 +9,7 @@ touch /tmp/config/zipster/vault_addr
 touch /tmp/config/zipster/vault_token
 
 cd ..
-echo password | sudo tar -xf mysql-data.tar.gz
+sudo -S <<< "password" tar -xf mysql-data.tar.gz
 cd -
 
 docker-compose -f ../docker-compose-vault-mysql-wiremock.yml up -d

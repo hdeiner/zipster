@@ -43,8 +43,8 @@ docker login
 docker push howarddeiner/zipster-mysql
 
 figlet -w 160 -f small "Serialize the mysql-data"
-echo password | sudo tar -czf ../mysql-data.tar.gz ../mysql-data
+sudo -S <<< "password"  tar -czf ../mysql-data.tar.gz ../mysql-data
 
 figlet -w 160 -f small "Bring Down MySQL Continer"
 docker-compose -f ../docker-compose-mysql-and-mysql-data.yml down
-echo password | sudo rm -rf ../mysql-data
+sudo -S <<< "password" rm -rf ../mysql-data

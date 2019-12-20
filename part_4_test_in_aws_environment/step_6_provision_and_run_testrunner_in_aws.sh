@@ -51,28 +51,28 @@ echo $ENVIRONMENT > .environment
 
 figlet -w 160 -f slant "Provision Vault information"
 echo "remote execution: mkdir -p /tmp/config/zipster"
-bolt command run 'mkdir -p /tmp/config/zipster' --nodes $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+bolt command run 'mkdir -p /tmp/config/zipster' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
 echo "upload: .environment to /tmp/config/zipster/environment"
-bolt file upload '.environment' '/tmp/config/zipster/environment' --nodes $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+bolt file upload '.environment' '/tmp/config/zipster/environment' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
 echo "upload: ../.vault_dns to /tmp/config/zipster/vault_addr"
-bolt file upload '../.vault_dns' '/tmp/config/zipster/vault_addr' --nodes $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+bolt file upload '../.vault_dns' '/tmp/config/zipster/vault_addr' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
 echo "upload: ../.vault_initial_root_token to /tmp/config/zipster/vault_token"
-bolt file upload '../.vault_initial_root_token' '/tmp/config/zipster/vault_token' --nodes $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+bolt file upload '../.vault_initial_root_token' '/tmp/config/zipster/vault_token' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
 
 rm .environment
 
 figlet -w 160 -f slant "Upload test code"
 echo "upload: ../pom.xml to /home/ubuntu/pom.xml"
-bolt file upload '../pom.xml' '/home/ubuntu/pom.xml' --nodes $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+bolt file upload '../pom.xml' '/home/ubuntu/pom.xml' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
 echo "upload: ../src to /home/ubuntu/src"
-bolt file upload '../src' '/home/ubuntu/src' --nodes $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+bolt file upload '../src' '/home/ubuntu/src' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
 
 figlet -w 160 -f slant "Upload and run provision_and_run_testrunner.sh"
 echo "upload: provisioning_scripts/provision_and_run_testrunner.sh to /home/ubuntu/provision_and_run_testrunner.sh"
-bolt file upload 'provisioning_scripts/provision_and_run_testrunner.sh' '/home/ubuntu/provision_and_run_testrunner.sh' --nodes $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+bolt file upload 'provisioning_scripts/provision_and_run_testrunner.sh' '/home/ubuntu/provision_and_run_testrunner.sh' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
 echo "remote execution: chmod +x /home/ubuntu/provision_and_run_testrunner.sh"
-bolt command run 'chmod +x /home/ubuntu/provision_and_run_testrunner.sh' --nodes $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+bolt command run 'chmod +x /home/ubuntu/provision_and_run_testrunner.sh' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
 echo "remote exeution: /home/ubuntu/provision_and_run_testrunner.sh"
-bolt command run '/home/ubuntu/provision_and_run_testrunner.sh' --nodes $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check | tee ./.temp
+bolt command run '/home/ubuntu/provision_and_run_testrunner.sh' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check | tee ./.temp
 
 rm ./.temp
