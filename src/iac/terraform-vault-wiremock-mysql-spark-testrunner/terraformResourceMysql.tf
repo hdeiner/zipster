@@ -1,7 +1,7 @@
 resource "aws_instance" "ec2_mysql" {
   count           = 1
   ami             = "ami-759bc50a"
-  instance_type   = "t2.small"
+  instance_type   = "t2.medium"
   key_name        = aws_key_pair.mysql_key_pair.key_name
   security_groups = [aws_security_group.mysql.name]
   tags = {

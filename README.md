@@ -14,7 +14,7 @@ Architecturally, we will use the following framworks and tools:
 - Cucumber for Java (to run our integration tests in)
     - locally in Docker containers (WireMock, Spark, MySQL).  Zipster server running on desktop.  Test code running on desktop.
     - locally in Docker containers (WireMock, Space, MySQL, Zipster)  Test code running on desktop.
-    - in AWS cloud (using Terraform)
+    - in AWS cloud (using Terraform), including 8 EC2 Zipster instances and an Elastic Load Balancer in front of them
 - Vault will also be a vital component of this project.  We will use it for holding together environments, the endpoints in those environments,and the secrets needed for those environments.
 
 Here's a sample of what zipster does:
@@ -44,7 +44,8 @@ How about we start with a test that runs all the necessary containers for integr
 
 - step_3_ready_vault_in_vault-mysql-wiremock-zipster_environment contacts the Vault server and places key/value pairs in Vault that allow the connections to occur.  It also injects values into /tmp/config/zipster so the test client can find the zipster server.
 - step_4_verify_in_vault-mysql-wiremock-zipster_environment runs the tests from maven against both the WireMock and Zipster servers.
-- step_5_destroy_docker-compose_vault-mysql-wiremock-zipster_environment does exactly what it says.  It uses docker-compose to bring down the environment and cleans up.
+- step_5_performance_timing_in_vault-mysql-wiremock-zipster_environment runs tests for 1, 2, 3, 4, 5, and 6 simulatenous executations against Zipster to get metrics as to how efficiently we get service in tests per second.
+- step_6_destroy_docker-compose_vault-mysql-wiremock-zipster_environment does exactly what it says.  It uses docker-compose to bring down the environment and cleans up.
 
 ##### part_3_test_in_desktop_environment mixes it up a little.
 Now, let's try running the Zipster server on the desktop, the maven test code on the desktop, and everything else in Docker running on our machine?
@@ -70,7 +71,7 @@ Here, instead of using docker-compose to orchestrate local containers, we will u
 - step_3_provision_wiremock_in_aws does it's dirty work by sending up wiremock initialization scripts using bolt (along with the WireMock faking files) that establish a Docker environment on the instance, starting up a WireMock container, and waiting for it to start.
 - step_4_provision_mysql_in_aws does its work by sending up MySQL initialization scripts using bolt that establishes a Docker environment on the instance, starting up a MySQL container, and waiting for it to start.  The data that the database uses is uploaded, untarred, and mounted for the database to use.
 - step_5_provision_zipster-spark_in_aws goes about its task by sending up an initialization script using bolt that establishes a Docker environment on the instance, starting up the zipster-spark container from DockerHub, and waiting for it to start.  Right now, it also copies the injected environment, vault_addr, and vault_token into the container from the instance, even though it is volume mapped into the container.  This should be fixable by working with the Dockerfile for the image.
-- step_6_provision_and_run_testrunner_in_aws works by first contacting Vault and creating all the endpoints and secrets needed for the integration testing to occur.  It then uploads the environment injection information to the testrunner instance (environment, vault_addr, and vault_token) so that the test client can ask Vault for information to talk to Zipster.  It then uploads a provisioning script to the instance which establishes an environment for testing (Java, Maven, and the code that drives the tests through Maven).  Finally, it executes the tests, which exercice everything that we setup.
+- step_6_provision_and_run_testrunner_in_aws works by first contacting Vault and creating all the endpoints and secrets needed for the integration testing to occur.  It then uploads the environment injection information to the testrunner instance (environment, vault_addr, and vault_token) so that the test client can ask Vault for information to talk to Zipster.  It then uploads a provisioning script to the instance which establishes an environment for testing (Java, Maven, and the code that drives the tests through Maven).  Finally, it executes the tests, which exercice everything that we setup.  It also executes the performance tests for 1, 2, 3, 4, 5, and 6 simulatenous executations against Zipster to get metrics as to how efficiently we get service in tests per second.
 - step_7_teardown_aws_environment is quite simple.  It runs terraform to destroy the environments that we so carefuly crafted, which proves that it's much easier to destroy than create.  But we can simply the scripts again, and we will get reproducable results each and every time.
 
 ---
@@ -79,6 +80,8 @@ Here, instead of using docker-compose to orchestrate local containers, we will u
 
 - There is value in always deploying our applications the same way.  I choose Docker containers, because I can quickly deploy to my desktop in a docker-composed environment in a very similar way to terraforming an orchestrated set of AWS EC2 containers.
 - Difficult endpoint and secrets management can become a thing of the past with automated and perhaps a centralized Vault.
+- Scaling Docker Container based AWS deployments can scale efficiently.
+![performance_testing_results](assets/performance_testing_results.png)
 
 ---
 TO DO:

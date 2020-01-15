@@ -29,13 +29,13 @@ uuidgen > .container.mysql.uuid
 vault kv put -address="http://$VAULT_DNS:8200" UUIDS/$(<.container.mysql.uuid) environment=$ENVIRONMENT > /dev/null
 vault kv put -address="http://$VAULT_DNS:8200" ENVIRONMENTS/$ENVIRONMENT/MYSQL uuid=$(<.container.mysql.uuid) url=jdbc:mysql://$MYSQL_DNS:3306/zipster?useSSL=false user=root password=password > /dev/null
 
-export SPARK_DNS=$(echo `cat ../.spark_dns`)
-echo "SPARK at "$SPARK_DNS
+export SPARK_ELB_DNS=$(echo `cat ../.spark_elb_dns`)
+echo "SPARK at "$SPARK_ELB_DNS
 
 echo "Register Zipster to Vault"
 uuidgen > .container.zipster.uuid
 vault kv put -address="http://$VAULT_DNS:8200" UUIDS/$(<.container.zipster.uuid) environment=$ENVIRONMENT > /dev/null
-vault kv put -address="http://$VAULT_DNS:8200" ENVIRONMENTS/$ENVIRONMENT/ZIPSTER uuid=$(<.container.zipster.uuid) endpoint=http://$SPARK_DNS:9002/zipster > /dev/null
+vault kv put -address="http://$VAULT_DNS:8200" ENVIRONMENTS/$ENVIRONMENT/ZIPSTER uuid=$(<.container.zipster.uuid) endpoint=http://$SPARK_ELB_DNS:9002/zipster > /dev/null
 
 export TESTRUNNER_DNS=$(echo `cat ../.testrunner_dns`)
 echo "TESTRUNNER at "$TESTRUNNER_DNS
