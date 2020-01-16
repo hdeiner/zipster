@@ -2,8 +2,21 @@
 
 figlet -w 160 -f standard "Provision MySQL in AWS"
 
+export ENVIRONMENT=$(echo `cat ../.environment`)
+echo "ENVIRONMENT at "$ENVIRONMENT
+
 export MYSQL_DNS=$(echo `cat ../.mysql_dns`)
 echo "MYSQL at "$MYSQL_DNS
+
+figlet -w 160 -f slant "Upload "$ENVIRONMENT" configuration"
+echo "upload: ../.environment to /home/ubuntu/.environment"
+bolt file upload '../.environment' '/home/ubuntu/.environment' --targets $MYSQL_DNS --user 'ubuntu' --no-host-key-check
+echo "upload: ../.vault_dns to /home/ubuntu/.vault_dns"
+bolt file upload '../.vault_dns' '/home/ubuntu/.vault_dns' --targets $MYSQL_DNS --user 'ubuntu' --no-host-key-check
+echo "upload: ../.vault_initial_root_token to /home/ubuntu/.vault_initial_root_token"
+bolt file upload '../.vault_initial_root_token' '/home/ubuntu/.vault_initial_root_token' --targets $MYSQL_DNS --user 'ubuntu' --no-host-key-check
+echo "upload: ../.mysql_dns to /home/ubuntu/.mysql_dns"
+bolt file upload '../.mysql_dns' '/home/ubuntu/.mysql_dns' --targets $MYSQL_DNS --user 'ubuntu' --no-host-key-check
 
 figlet -w 160 -f slant "Upload and run provision_mysql.sh"
 echo "upload: ../docker-compose-mysql-and-mysql-data.yml to /home/ubuntu/docker-compose-mysql-and-mysql-data.yml"

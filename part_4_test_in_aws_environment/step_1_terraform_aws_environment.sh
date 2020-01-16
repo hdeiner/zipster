@@ -2,6 +2,8 @@
 
 figlet -w 160 -f standard "Terraform AWS Environment"
 
+echo 'AWS_DEMO' > ../.environment
+
 cd ../src/iac/terraform-vault-wiremock-mysql-spark-testrunner
 
 terraform init

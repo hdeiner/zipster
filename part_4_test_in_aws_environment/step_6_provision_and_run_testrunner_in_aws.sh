@@ -2,64 +2,31 @@
 
 figlet -w 160 -f standard "Run Tests in AWS_DEMO"
 
-figlet -w 160 -f slant "Wire together the components in Vault"
-
-export ENVIRONMENT=AWS_DEMO
-
-echo "Authenticate to Vault"
-export VAULT_DNS=$(echo `cat ../.vault_dns`)
-echo "VAULT at "$VAULT_DNS
-export VAULT_TOKEN=$(echo `cat ../.vault_initial_root_token`)
-echo "VAULT_TOKEN is "$VAULT_TOKEN
-vault login -address="http://$VAULT_DNS:8200" $VAULT_TOKEN
-
-export WIREMOCK_DNS=$(echo `cat ../.wiremock_dns`)
-echo "WIREMOCK at "$WIREMOCK_DNS
-
-echo "Register WireMock to Vault"
-uuidgen > .container.wiremock.uuid
-vault kv put -address="http://$VAULT_DNS:8200" UUIDS/$(<.container.wiremock.uuid) environment=$ENVIRONMENT > /dev/null
-vault kv put -address="http://$VAULT_DNS:8200" ENVIRONMENTS/$ENVIRONMENT/WIREMOCK uuid=$(<.container.wiremock.uuid) endpoint=http://$WIREMOCK_DNS:9001/zipster > /dev/null
-
-export MYSQL_DNS=$(echo `cat ../.mysql_dns`)
-echo "MYSQL at "$MYSQL_DNS
-
-echo "Register MySQL to Vault"
-uuidgen > .container.mysql.uuid
-vault kv put -address="http://$VAULT_DNS:8200" UUIDS/$(<.container.mysql.uuid) environment=$ENVIRONMENT > /dev/null
-vault kv put -address="http://$VAULT_DNS:8200" ENVIRONMENTS/$ENVIRONMENT/MYSQL uuid=$(<.container.mysql.uuid) url=jdbc:mysql://$MYSQL_DNS:3306/zipster?useSSL=false user=root password=password > /dev/null
-
-export SPARK_ELB_DNS=$(echo `cat ../.spark_elb_dns`)
-echo "SPARK at "$SPARK_ELB_DNS
-
-echo "Register Zipster to Vault"
-uuidgen > .container.zipster.uuid
-vault kv put -address="http://$VAULT_DNS:8200" UUIDS/$(<.container.zipster.uuid) environment=$ENVIRONMENT > /dev/null
-vault kv put -address="http://$VAULT_DNS:8200" ENVIRONMENTS/$ENVIRONMENT/ZIPSTER uuid=$(<.container.zipster.uuid) endpoint=http://$SPARK_ELB_DNS:9002/zipster > /dev/null
+export ENVIRONMENT=$(echo `cat ../.environment`)
+echo "ENVIRONMENT at "$ENVIRONMENT
 
 export TESTRUNNER_DNS=$(echo `cat ../.testrunner_dns`)
 echo "TESTRUNNER at "$TESTRUNNER_DNS
 
-echo "Register Testrunner to Vault"
-uuidgen > .container.testrunner.uuid
-vault kv put -address="http://$VAULT_DNS:8200" UUIDS/$(<.container.testrunner.uuid) environment=$ENVIRONMENT > /dev/null
-vault kv put -address="http://$VAULT_DNS:8200" ENVIRONMENTS/$ENVIRONMENT/TESTRUNNER uuid=$(<.container.testrunner.uuid) endpoint=$TESTRUNNER_DNS > /dev/null
-
-rm .container.wiremock.uuid .container.mysql.uuid .container.zipster.uuid .container.testrunner.uuid
-
-echo $ENVIRONMENT > .environment
+figlet -w 160 -f slant "Upload "$ENVIRONMENT" configuration"
+echo "upload: ../.environment to /home/ubuntu/.environment"
+bolt file upload '../.environment' '/home/ubuntu/.environment' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+echo "upload: ../.vault_dns to /home/ubuntu/.vault_dns"
+bolt file upload '../.vault_dns' '/home/ubuntu/.vault_dns' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+echo "upload: ../.vault_initial_root_token to /home/ubuntu/.vault_initial_root_token"
+bolt file upload '../.vault_initial_root_token' '/home/ubuntu/.vault_initial_root_token' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+echo "upload: ../.testrunner_dns to /home/ubuntu/.testrunner_dns"
+bolt file upload '../.testrunner_dns' '/home/ubuntu/.testrunner_dns' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
 
 figlet -w 160 -f slant "Provision Vault information"
 echo "remote execution: mkdir -p /tmp/config/zipster"
 bolt command run 'mkdir -p /tmp/config/zipster' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
-echo "upload: .environment to /tmp/config/zipster/environment"
-bolt file upload '.environment' '/tmp/config/zipster/environment' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+echo "upload: ../.environment to /tmp/config/zipster/environment"
+bolt file upload '../.environment' '/tmp/config/zipster/environment' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
 echo "upload: ../.vault_dns to /tmp/config/zipster/vault_addr"
 bolt file upload '../.vault_dns' '/tmp/config/zipster/vault_addr' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
 echo "upload: ../.vault_initial_root_token to /tmp/config/zipster/vault_token"
 bolt file upload '../.vault_initial_root_token' '/tmp/config/zipster/vault_token' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
-
-rm .environment
 
 figlet -w 160 -f slant "Upload test code"
 echo "upload: ../pom.xml to /home/ubuntu/pom.xml"
@@ -67,12 +34,20 @@ bolt file upload '../pom.xml' '/home/ubuntu/pom.xml' --targets $TESTRUNNER_DNS -
 echo "upload: ../src to /home/ubuntu/src"
 bolt file upload '../src' '/home/ubuntu/src' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
 
-figlet -w 160 -f slant "Upload and run provision_and_run_testrunner.sh"
-echo "upload: provisioning_scripts/provision_and_run_testrunner.sh to /home/ubuntu/provision_and_run_testrunner.sh"
-bolt file upload 'provisioning_scripts/provision_and_run_testrunner.sh' '/home/ubuntu/provision_and_run_testrunner.sh' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
-echo "remote execution: chmod +x /home/ubuntu/provision_and_run_testrunner.sh"
-bolt command run 'chmod +x /home/ubuntu/provision_and_run_testrunner.sh' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
-echo "remote exeution: /home/ubuntu/provision_and_run_testrunner.sh"
-bolt command run '/home/ubuntu/provision_and_run_testrunner.sh' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check | tee ./.temp
+figlet -w 160 -f slant "Upload and run provision_testrunner.sh"
+echo "upload: provisioning_scripts/provision_testrunner.sh to /home/ubuntu/provision_testrunner.sh"
+bolt file upload 'provisioning_scripts/provision_testrunner.sh' '/home/ubuntu/provision_testrunner.sh' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+echo "remote execution: chmod +x /home/ubuntu/provision_testrunner.sh"
+bolt command run 'chmod +x /home/ubuntu/provision_testrunner.sh' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+echo "remote exeution: /home/ubuntu/provision_testrunner.sh"
+bolt command run '/home/ubuntu/provision_testrunner.sh' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check | tee ./.temp
+
+figlet -w 160 -f slant "Upload and run run_testrunner.sh"
+echo "upload: provisioning_scripts/run_testrunner.sh to /home/ubuntu/run_testrunner.sh"
+bolt file upload 'provisioning_scripts/run_testrunner.sh' '/home/ubuntu/run_testrunner.sh' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+echo "remote execution: chmod +x /home/ubuntu/run_testrunner.sh"
+bolt command run 'chmod +x /home/ubuntu/run_testrunner.sh' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check
+echo "remote exeution: /home/ubuntu/run_testrunner.sh"
+bolt command run '/home/ubuntu/run_testrunner.sh' --targets $TESTRUNNER_DNS --user 'ubuntu' --no-host-key-check | tee ./.temp
 
 rm ./.temp

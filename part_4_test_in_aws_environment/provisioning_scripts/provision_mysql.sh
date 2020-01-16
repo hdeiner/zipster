@@ -19,6 +19,12 @@ sudo chmod +x /usr/local/bin/docker-compose
 # Install mysql client
 sudo apt install -y mysql-client
 
+# We'll need Vault
+sudo apt-get install unzip -y
+curl -O https://releases.hashicorp.com/vault/1.3.0/vault_1.3.0_linux_amd64.zip
+unzip vault_1.3.0_linux_amd64.zip
+sudo mv vault /usr/local/bin/.
+
 echo "Start the Mysql server"
 sudo tar -xf mysql-data.tar.gz
 sudo docker-compose -f ./docker-compose-mysql-and-mysql-data.yml up -d
@@ -31,3 +37,9 @@ while true ; do
   fi
   sleep 5
 done
+
+echo "Register with Vault"
+uuidgen > .container.mysql.uuid
+vault login -address="http://$(<.vault_dns):8200" $(<.vault_initial_root_token)
+vault kv put -address="http://$(<.vault_dns):8200" UUIDS/$(<.container.mysql.uuid) environment=$(<.environment)
+vault kv put -address="http://$(<.vault_dns):8200" ENVIRONMENTS/$(<.environment)/MYSQL uuid=$(<.container.mysql.uuid) url=jdbc:mysql://$(<.mysql_dns):3306/zipster?useSSL=false user=root password=password
