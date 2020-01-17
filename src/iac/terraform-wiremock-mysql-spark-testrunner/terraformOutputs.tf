@@ -1,7 +1,3 @@
-output "vault_dns" {
-  value = [aws_instance.ec2_vault.*.public_dns]
-}
-
 output "wiremock_dns" {
   value = [aws_instance.ec2_wiremock.*.public_dns]
 }

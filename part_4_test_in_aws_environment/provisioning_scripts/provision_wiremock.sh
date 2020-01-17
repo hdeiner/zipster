@@ -20,7 +20,7 @@ sudo mv vault /usr/local/bin/.
 
 echo "Start the Wiremock server"
 sudo docker network create -d bridge mynetwork
-sudo docker run -d -p 9001:8080 -v $(pwd)/wiremock/wiremock:/home/wiremock --network=mynetwork --name wiremock rodolpheche/wiremock
+sudo docker run -d -p 9001:8080 -v $(pwd)/wiremock:/home/wiremock --network=mynetwork --name wiremock rodolpheche/wiremock
 
 while true ; do
   curl -s -d "{\"radius\": \"2.0\",\"zipcode\":\"07440\"}" -H "Content-Type: application/json" -X POST localhost:9001/zipster > temp.txt

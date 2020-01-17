@@ -26,7 +26,7 @@ resource "aws_security_group" "vault" {
     ]
   }
   tags = {
-    Name = "Mysql Security Group"
+    Name = "Vault Security Group"
   }
 }
 

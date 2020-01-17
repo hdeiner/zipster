@@ -13,11 +13,6 @@ resource "aws_key_pair" "testrunner_key_pair" {
   public_key = file("~/.ssh/id_rsa.pub")
 }
 
-resource "aws_key_pair" "vault_key_pair" {
-  key_name   = "vault_key_pair"
-  public_key = file("~/.ssh/id_rsa.pub")
-}
-
 resource "aws_key_pair" "wiremock_key_pair" {
   key_name   = "wiremock_key_pair"
   public_key = file("~/.ssh/id_rsa.pub")
