@@ -63,6 +63,10 @@ Here, instead of using docker-compose to orchestrate local containers, we will u
 
 ![part_4](assets/part_4_test_in_aws_environment.png)
 
+Looking at this in a different way,
+
+![part_4_system](assets/part_4_aws_systems_diagram.png)
+
 - step_1_terraform_aws_environment does just that. Terraform output for the EC2 instances are saved locally for contact with the machines later in the process.  Here's what the AWS console looks like when the terraform script completes:
 
 ![aws_console_sample](assets/aws_console_sample.png)
