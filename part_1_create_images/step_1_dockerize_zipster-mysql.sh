@@ -28,7 +28,7 @@ echo "CREATE USER 'FLYWAY' IDENTIFIED BY 'FLWAY';" | mysql -h 127.0.0.1 -P 3306 
 
 figlet -w 160 -f small "Load Initial Data Into Database"
 ../flyway-4.2.0/flyway info
-../flyway-4.2.0/flyway migrate
+../flyway-4.2.0/flyway -target=2_1 migrate
 ../flyway-4.2.0/flyway info
 
 figlet -w 160 -f standard "Create zipster-mysql Image"

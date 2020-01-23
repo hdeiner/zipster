@@ -39,6 +39,34 @@ resource "aws_instance" "ec2_mysql" {
     destination = "/home/ubuntu/mysql-data.tar.gz"
   }
   provisioner "file" {
+    source      = "../../../flyway-commandline-4.2.0-linux-x64.tar.gz"
+    destination = "/home/ubuntu/flyway-commandline-4.2.0-linux-x64.tar.gz"
+  }
+  provisioner "file" {
+    source      = "../../../flyway-4.2.0/sql/V1_1__Zipcode_Schema.sql"
+    destination = "/home/ubuntu/V1_1__Zipcode_Schema.sql"
+  }
+  provisioner "file" {
+    source      = "../../../flyway-4.2.0/sql/V1_2__Zipcode_Static_Data.sql"
+    destination = "/home/ubuntu/V1_2__Zipcode_Static_Data.sql"
+  }
+  provisioner "file" {
+    source      = "../../../flyway-4.2.0/sql/V2_1__Add_Spatial_Data.sql"
+    destination = "/home/ubuntu/V2_1__Add_Spatial_Data.sql"
+  }
+  provisioner "file" {
+    source      = "../../../flyway-4.2.0/sql/V3_1__Zipcode_Test_Data.sql"
+    destination = "/home/ubuntu/V3_1__Zipcode_Test_Data.sql"
+  }
+  provisioner "file" {
+    source      = "../../../flyway-4.2.0/conf/flyway.conf"
+    destination = "/home/ubuntu/flyway.conf"
+  }
+  provisioner "file" {
+    source      = "../../../flyway-4.2.0/drivers/mysql-connector-java-8.0.18.jar"
+    destination = "/home/ubuntu/mysql-connector-java-8.0.18.jar"
+  }
+  provisioner "file" {
     source      = "../../../part_4_test_in_aws_environment/provisioning_scripts/provision_mysql.sh"
     destination = "/home/ubuntu/provision_mysql.sh"
   }

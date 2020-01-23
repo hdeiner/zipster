@@ -2,6 +2,11 @@
 
 figlet -w 160 -f standard "Verify in vault-mysql-wiremock Environment"
 
+figlet -w 160 -f small "Load Test Data Into Database"
+../flyway-4.2.0/flyway info
+../flyway-4.2.0/flyway -target=3_1 migrate
+../flyway-4.2.0/flyway info
+
 cd ..
 java -jar target/zipster-1.0-SNAPSHOT-jar-with-dependencies.jar&
 sleep 10

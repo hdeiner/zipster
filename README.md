@@ -80,6 +80,22 @@ Looking at this in a different way,
 
 ---
 
+##### ETL Issues
+
+* Will injest a csv file with a row for each Zipcode,ZipCodeType,City,State,LocationType,Lat,Long,Location,Decommisioned tuple
+* Value checks:
+  * Zipcode       ^\d{1,5}$
+  * ZipCodeType   ^(STANDARD|PO BOX|UNIQUE){1}$
+  * City          ^[A-Z ]+$
+  * State         ^(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|PR|AA|AE|AP)$
+  * LocationType  ^(PRIMARY)$
+  * Lat           ^[\-]{0,1}[0-9]+[\.][0-9]{2}$
+  * Long          ^[\-]{0,1}[0-9]+[\.][0-9]{2}$
+  * Location      ^[A-Z\-]+$
+  * Decommisioned ^FALSE|TRUE$
+* A CSV file will be read, and lines failing the value checks above will be output as a "failed" file.  The ones which pass va;idation will be loaded into the database.
+---
+
 ##### What have we demonstrated?
 
 - There is value in always deploying our applications the same way.  I choose Docker containers, because I can quickly deploy to my desktop in a docker-composed environment in a very similar way to terraforming an orchestrated set of AWS EC2 containers.
@@ -88,4 +104,3 @@ Looking at this in a different way,
 ![performance_testing_results](assets/performance_testing_results.png)
 - From the standpoint of the AWS Elastic Load Balancing monitor, here's a sample taken right after the tests were run on the testrunner against the load balnced zipster REST API.
 ![aws_elb_monitoring_sample](assets/aws_elb_monitoring_sample.png)
-

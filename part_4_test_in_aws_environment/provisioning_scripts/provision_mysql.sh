@@ -25,6 +25,12 @@ curl -O https://releases.hashicorp.com/vault/1.3.0/vault_1.3.0_linux_amd64.zip
 unzip vault_1.3.0_linux_amd64.zip
 sudo mv vault /usr/local/bin/.
 
+echo "Setup Flyway"
+tar -xvf flyway-commandline-4.2.0-linux-x64.tar.gz
+cp flyway.conf flyway-4.2.0/conf/flyway.conf
+cp mysql-connector-java-8.0.18.jar flyway-4.2.0/drivers/mysql-connector-java-8.0.18.jar
+cp *.sql flyway-4.2.0/sql/.
+
 echo "Start the Mysql server"
 sudo tar -xf mysql-data.tar.gz
 sudo docker-compose -f ./docker-compose-mysql-and-mysql-data.yml up -d
@@ -37,6 +43,11 @@ while true ; do
   fi
   sleep 5
 done
+
+echo "Load test data"
+./flyway-4.2.0/flyway info
+./flyway-4.2.0/flyway -target=3_1 migrate
+./flyway-4.2.0/flyway info
 
 echo "Register with Vault"
 uuidgen > .container.mysql.uuid
